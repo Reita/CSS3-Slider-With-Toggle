@@ -1,0 +1,45 @@
+<!DOCTYPE html> 
+<html lang="en" class="no-js"> 
+<head class="html5reset-kitchensink-clean"> 
+<meta charset="utf-8" /> 
+<title>Treebit.fm Labs | CSS3 Blur</title>
+<link href="style.css" rel="stylesheet" type="text/css"> 
+<script src="prefixfree.min.js"></script>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+</head> 
+<body>
+
+<div id="container" class="clearfix">
+<h1>CSS3 Slider With Toggle</h1>
+<div id="slider-container">
+
+<div id="buttons">
+<a class="disable" href="#">Disable</a>
+<a class="enable" href="#container">Enable</a>
+</div>
+
+<ul id="slider">
+<li></li>
+<li></li>
+<li></li>
+<li><p>Look, Ma! I'm a caption!</p></li>
+</ul>
+
+<div id="progress-bar"></div>
+<div id="pause-state"></div>
+
+</div>
+<div id="disclaimer">
+<p>This experiment has been heavily inspired on Caleb Jacob's <a href="http://iamceege.com/pure-css3-content-slider/">CSS3 Content Slider experiment</a>; I had already been thinking and working on <a href="http://labs.treebit.fm/rotation/">content animations</a> before and I wanted to build something different so I wrote this from scratch while trying to remain as semantic as possible, and added a toggle action to activate/disable the slider. The main disadvantage of having a toggle this way is that you <em>can't make content inside the slider clickable (external links, etc)</em>, otherwise the toggle is rendered useless. We could add controls <strong>outside the slider</strong> if that's the case though.</p>
+<p>I am using <a href="http://leaverou.github.com/prefixfree/">Lea Verou's -prefix-free</a> in order to use unprefixed CSS properties; if you want to use this example you will have to either use -prefix-free or add the proper vendor prefixes to each CSS declaration.</p>
+</div>
+</div>
+
+<footer>
+<ul>
+<li>Built by <a href="http://twitter.com/Reita">Ale Tello</a></li>
+</ul>
+</footer>
+
+</body>
+</html>

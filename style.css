@@ -1,0 +1,277 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+::selection{
+  background: rgba(249,255,74,0.8);
+  color: #333;
+}
+
+:focus { outline: 0; }
+
+body,html {
+  height: 100%;
+}
+
+body {
+  font: 16px/1.1em "Segoe UI", Helvetica, sans-serif;
+  overflow: hidden;
+  background: url('bgnoise_lg.png');
+  background: radial-gradient(50% 50%, farthest-side, rgba(1,1,1,0.3), rgba(255,255,255,0) 50%),
+              url('bgnoise_lg.png');
+  text-shadow: 0 0 1px rgba(255,255,255,0.1),
+}
+
+h1 {
+  margin: 0;
+  font-size: 3em;
+  letter-spacing: -1px;
+  color: rgba(0,0,0,0.4);
+  text-shadow: 0px 0px 1px rgba(0,0,0,0.8);
+  background: rgba(255,255,255,0.5);
+  padding: 30px 20px;
+  width: 580px;
+  border-radius: 10px;
+}
+
+#container {
+  width: 620px;
+  margin: 0 auto 40px auto;
+  padding: 40px 0 0 0;
+}
+
+#wrapper {
+  padding: 12px;
+  width: 620px;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* This makes the toggle work, two anchors on top of each other with absolute positions */
+#slider-container a {
+  display: block;
+  position: absolute;
+  text-indent: -1000em;
+  text-decoration: none;
+  width: 600px;
+  height: 200px;
+  z-index: 1000;
+}
+
+/* Pointer events makes anchors to be "click-through" */
+#container:target .enable {
+  pointer-events: none;
+}
+
+/* Slider Starts Here */
+#slider-container {
+  margin: 20px auto;
+  list-style: none;
+  border: 10px solid rgba(255,255,255,1);
+  background: rgba(0,0,0,0.8);
+  width: 600px;
+  height: 200px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+  position: relative;
+  transition: border 0.5s ease-in-out;
+}
+
+/** Transitions on pseudo-elements aren't working on Chrome; I wanted the progress bar to be a pseudo-element
+    but Chrome wasn't animating it so I had to use a div so it would work on Chrome; the paused state,
+    however, is a pseudo-element (#slider-container:after) that slides down and works correctly on Firefox. **/
+
+#slider-container:after {
+  content: "";
+  background: rgba(0,0,0,0);
+  width: 600px;
+  height: 200px;
+  top: -200px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Using a pseudo-element (#slider-container:before) was giving me issues with the animation for the paused state
+   so let's use a pointless non-semantic extra div. There's no images in here, just a CSS gradient to render the
+   paused icon. */
+#pause-state {
+  opacity: 0;
+  content: "";
+  background: linear-gradient(left, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 40%, rgba(255,255,255,0) 41%, rgba(255,255,255,0) 59%, rgba(255,255,255,1) 60%, rgba(255,255,255,1) 100%);
+  width: 20px;
+  height: 20px;
+  box-shadow: 0 0 10px rgba(255,255,255,0.5);
+  top: 15px;
+  left: 15px;
+  position: absolute;
+  transition: all 0.3s ease-in-out;
+}
+
+#container:target #pause-state {
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+#container:target #slider-container:after,
+#slider-container:hover:after {
+  top: 0;
+  background: rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+#container:target #slider-container,
+#slider-container:hover {
+  border: 10px solid rgba(0,0,0,1);
+  transition: border 0.5s ease-in-out;
+}
+
+/* Let's pause the animation when we hover and when there's a target */
+#slider-container:hover #slider,
+#slider-container:hover #progress-bar,
+#container:target #slider,
+#container:target #progress-bar {
+  animation-play-state: paused;
+}
+
+/* Each animation, slider and progress bar, lasts 15 seconds and can be changed. Both values must match. */
+#slider-container #progress-bar {
+  width: 600px;
+  height: 2px;
+  background: rgba(27,183,255,0.8);
+  position: absolute;
+  bottom: 0;
+  left: -600px;
+  animation: progress 15s ease infinite;
+}
+
+#slider {
+  list-style: none;
+  width: 2400px;
+  height: 200px;
+  animation: movement 15s ease infinite;
+  opacity: 0;
+}
+
+#slider li {
+  width: 600px;
+  height: 200px;
+  float: left;
+  transition: background-size 0.3s ease-in-out;
+  background-size: 100%;
+  background-position: center center;
+  position: relative;
+}
+
+/* Content has been added as BG images; technically any kind of content should work inside each <li> but
+   I haven't really tested it. */
+#slider li * {
+  display: block;
+  width: 600px;
+  height: 200px;
+}
+
+#slider li:nth-child(1) {
+  background: url('slides/1.jpg');
+}
+
+#slider li:nth-child(2) {
+  background: url('slides/2.jpg');
+}
+
+#slider li:nth-child(3) {
+  background: url('slides/3.jpg');
+}
+
+#slider li:nth-child(4) {
+  background: url('slides/4.jpg');
+}
+
+/* Captions are paragraphs */
+#slider p {
+  width: 560px;
+  position: absolute;
+  bottom: 0;
+  background: rgba(255,255,255,0.4);
+  padding: 1em 20px;
+  height: auto;
+  font-size: 0.8em;
+  border-top: 1px solid rgba(0,0,0,0.2);
+  text-shadow: 0px 1px 1px rgba(255,255,255,0.5);
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Paragraphs slide down when you hover them; I know the normal behaviour is for them to pop/show up
+   when hovering them but I have yet to find a way to control how to show them once they are visible. */
+#slider-container:hover p {
+  transform: translateY(200px);
+  transition: all 0.3s ease-in-out;
+}
+
+/* Everything has been calculated for 4 slides; we need two states per slide (8 total) and two extra for
+   starting/ending positions */
+@keyframes movement{
+	4%   { opacity: 1;}
+	12%  { margin: 0 0 0 0px; opacity: 1;}
+	24%  { margin: 0 0 0 -600px; opacity: 1;}
+	36%  { margin: 0 0 0 -600px; opacity: 1;}
+	48%  { margin: 0 0 0 -1200px; opacity: 1;}
+	60%  { margin: 0 0 0 -1200px; opacity: 1;}
+	72%  { margin: 0 0 0 -1800px; opacity: 1;}
+	86%  { margin: 0 0 0 -1800px; opacity: 1;}
+	96%  { margin: 0 0 0 -1800px; opacity: 1;}
+	100%  { margin: 0 0 0 -1800px; opacity: 0;}
+}
+
+@keyframes progress{
+	0% {left: -600px; opacity: 1;}
+	12% {left: 0; }
+	24% {left: -600px; opacity: 1;}
+	36% {left: 0; }
+	48% {left: -600px; opacity: 1;}
+	60% {left: 0; }
+	72% {left: -600px; opacity: 1;}
+  96% {left: 0; opacity: 1;}
+  100% { left: 0; opacity: 0;}
+}
+
+#container #disclaimer {
+  color: #eee;
+  line-height: 1.6em;
+  font-size: 0.7em;
+  padding: 20px;
+  background: rgba(0,0,0,0.8);
+}
+
+#disclaimer p {
+  margin: 0 0 20px 0;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 210px;
+  background: rgba(0, 0, 0, 0.1);
+  color: #444;
+  padding: 20px 15px;
+  font-size: 0.8em;
+}
+
+footer ul,
+footer li {
+  list-style: none;
+  text-align: left;
+}
+
+#container p a,
+footer a {
+  text-decoration: none;
+  color: #0072BC;
+}
+
+#container p a:hover,
+footer a:hover {
+  border-bottom: 1px dotted #0072BC;
+}
